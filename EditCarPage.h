@@ -80,7 +80,16 @@ public:
 
 	}
 
+	void graphT() {
 
+
+
+// 		for (size_t i = 0; i < p->raceCar.getMaxRPM(); i++) {
+// 			p->raceCar;
+// 		}
+
+
+	}
 
 	void initFonts() {
 		if (!font.loadFromFile("Fonts/Roboto-Regular.ttf")) {

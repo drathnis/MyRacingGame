@@ -162,7 +162,7 @@
     <ClCompile Include="button.cpp" />
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="EditCarPage.cpp" />
-    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Drivetrain.cpp" />
     <ClCompile Include="GamePage.cpp" />
     <ClCompile Include="MainPage.cpp" />
     <ClCompile Include="Mygame.cpp" />
@@ -176,7 +176,7 @@
     <ClInclude Include="button.h" />
     <ClInclude Include="Car.h" />
     <ClInclude Include="EditCarPage.h" />
-    <ClInclude Include="Engine.h" />
+    <ClInclude Include="Drivetrain.h" />
     <ClInclude Include="GamePage.h" />
     <ClInclude Include="MainPage.h" />
     <ClInclude Include="Mygame.h" />
