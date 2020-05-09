@@ -21,9 +21,9 @@ class MainPage :public Page {
 
 	public:
 
-		MainPage(GameData pageData);;
+		MainPage(GameData *pageData);;
 
-		~MainPage();;
+		~MainPage();
 
 
 

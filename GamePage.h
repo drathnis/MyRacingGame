@@ -30,12 +30,12 @@ private:
 
 	sf::Texture backgroundTexture;
 
-	GameData pageInfo;
+	GameData pageData;
 
 
 public:
 
-	GamePage(GameData pageData);;
+	GamePage(GameData *pageData);;
 
 	~GamePage();;
 	void initFonts();;

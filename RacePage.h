@@ -54,7 +54,7 @@ private:
 	string infoString; 
 	string infoString2;
 
-	GameData pageInfo;
+	GameData *pageData;
 	Car playerCar;
 	Car opCar;
 
@@ -110,7 +110,7 @@ private:
 
 public:
 
-	RacePage(GameData pageData);
+	RacePage(GameData *pageData);
 
 	~RacePage() {}
 

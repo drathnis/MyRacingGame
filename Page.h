@@ -29,10 +29,7 @@ class GameData {
 
 
 public:
-	~GameData() {
-
-
-	};
+	~GameData();
 
 	float gridSize = 1;
 	sf::RenderWindow* window;
@@ -55,7 +52,7 @@ protected:
 	sf::Vector2f mousePosView;
 	sf::Vector2i mousePosGrid;
 
-	GameData pageData;
+	GameData *gameData;
 
 private:
 
@@ -65,46 +62,19 @@ private:
 
 public:
 
+
 	bool quit = false;
+	Page(GameData *page);
 
-	Page(GameData page) {
+	virtual void quitePage();
 
-		this->pageData = page;
-	};
-
-
-	virtual void quitePage() {
-		quit = true;
-
-	};
-
-	bool getQuit() {
-		return quit;
-	}
-
+	bool getQuit();
 
 	virtual void update(const double &time) =0;
 	virtual void render(sf::RenderTarget* wind = nullptr ) = 0;
 
 
-	virtual void updateMousePositions(sf::View* view = NULL) {
-		this->mousePosScreen = sf::Mouse::getPosition();
-		this->mousePosWindow = sf::Mouse::getPosition(*this->pageData.window);
-
-		if (view)
-			this->pageData.window->setView(*view);
-
-		
-
-		this->mousePosView = this->pageData.window->mapPixelToCoords(sf::Mouse::getPosition(*this->pageData.window));
-		this->mousePosGrid =
-			sf::Vector2i(
-				static_cast<int>(this->mousePosView.x) / static_cast<int>(this->pageData.gridSize),
-				static_cast<int>(this->mousePosView.y) / static_cast<int>(this->pageData.gridSize)
-			);
-
-		this->pageData.window->setView(this->pageData.window->getDefaultView());
-	}
+	virtual void updateMousePositions(sf::View* view = NULL);
 
 };
 

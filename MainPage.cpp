@@ -1,10 +1,10 @@
 #include "MainPage.h"
 
 
-MainPage::MainPage(GameData pageData) :Page(pageData) {
+MainPage::MainPage(GameData *pageData) :Page(pageData) {
 
 	cout << "MainPage" << endl;
-	pageInfo = pageData;
+	pageInfo = *pageData;
 
 	background.setFillColor(sf::Color(14, 25, 179));
 	background.setSize(sf::Vector2f((float)pageInfo.window->getSize().x, (float)pageInfo.window->getSize().y));
@@ -69,7 +69,7 @@ void MainPage::updateButtons() {
 	}
 
 	if (buttons["EXIT_STATE"]->isPressed()) {
-		quit = true;
+		this->quit = true;
 	}
 
 	if (buttons["GAME_STATE"]->isPressed()) {
@@ -82,7 +82,7 @@ void MainPage::updateButtons() {
 			}
 		}
 
-		this->pageInfo.states->push(new GamePage(pageInfo));
+		this->pageInfo.states->push(new GamePage(&pageInfo));
 
 	}
 

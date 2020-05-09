@@ -1,9 +1,9 @@
 #include "GamePage.h"
 
-GamePage::GamePage(GameData pageData) :Page(pageData) {
-	pageInfo = pageData;
+GamePage::GamePage(GameData *pageData) :Page(pageData) {
+	this->pageData = *pageData;
 	background.setFillColor(sf::Color(60, 6, 96));
-	background.setSize(sf::Vector2f((float)pageInfo.window->getSize().x, (float)pageInfo.window->getSize().y));
+	background.setSize(sf::Vector2f(this->pageData.window->getSize().x, this->pageData.window->getSize().y));
 
 	initFonts();
 	initButtons();
@@ -81,7 +81,7 @@ void GamePage::update(const double& time) {
 void GamePage::updatePlayerInfo() {
 
 	stringstream tempStream;
-	tempStream << fixed << setprecision(2) << pageInfo.player->getMoney();
+	tempStream << fixed << setprecision(2) << pageData.player->getMoney();
 	string temp = tempStream.str();
 
 	moneyVal.setString(temp);
@@ -113,7 +113,7 @@ void GamePage::updateButtons() {
 			}
 		}
 
-		pageData.states->push(new EditCarPage(pageData));
+		pageData.states->push(new EditCarPage(&pageData));
 	}
 
 	if (buttons["RACE"]->isPressed()) {
@@ -122,7 +122,7 @@ void GamePage::updateButtons() {
 		while (buttons["RACE"]->isPressed()) {
 			buttons["RACE"]->update(mousePosView);
 		}
-		pageData.states->push(new RacePage(pageData));
+		pageData.states->push(new RacePage(&pageData));
 
 	}
 }
@@ -158,7 +158,7 @@ void GamePage::initPlayerInfo() {
 
 
 	stringstream tempStream;
-	tempStream << fixed << setprecision(2) << pageInfo.player->getMoney();
+	tempStream << fixed << setprecision(2) << pageData.player->getMoney();
 	string temp = tempStream.str();
 
 	moneyVal.setFillColor(sf::Color::White);
@@ -172,8 +172,8 @@ void GamePage::initPlayerInfo() {
 
 void GamePage::renderPlayerInfo() {
 
-	pageInfo.window->draw(infoBox);
-	pageInfo.window->draw(moneyTxt);
-	pageInfo.window->draw(moneyVal);
-	pageInfo.window->draw(infoTxt);
+	pageData.window->draw(infoBox);
+	pageData.window->draw(moneyTxt);
+	pageData.window->draw(moneyVal);
+	pageData.window->draw(infoTxt);
 }

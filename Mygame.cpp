@@ -66,7 +66,7 @@ void Mygame::initStateData() {
 }
 
 void Mygame::initPages() {
-	pages.push(new MainPage(gameData));
+	pages.push(new MainPage(&gameData));
 	//pages.push(new RacePage(gameData));
 }
 

@@ -9,7 +9,7 @@ class EditCarPage :public Page {
 
 private:
 
-	GameData pageInfo;
+	GameData pageData;
 
 	Player *p;
 
@@ -27,13 +27,13 @@ private:
 public:
 
 
-	EditCarPage(GameData pageData) :Page(pageData) {
-		pageInfo = pageData;
+	EditCarPage(GameData *pageData) :Page(pageData) {
+		this->pageData = *pageData;
 
-		p = pageInfo.player;
+		p = this->pageData.player;
 
 		background.setFillColor(sf::Color(60, 6, 96));
-		background.setSize(sf::Vector2f(pageInfo.window->getSize().x, pageInfo.window->getSize().y));
+		background.setSize(sf::Vector2f(this->pageData.window->getSize().x, this->pageData.window->getSize().y));
 		cout << "setting new car" << endl;
 		//pageInfo.player->raceCar = Car('c');
 		cout << "Done setting new car" << endl;
@@ -107,7 +107,7 @@ public:
  			val = p->raceCar.getDrivetrain()->getEngine()->tCurve[i];
  			cout<< val <<endl;
  
- 			tGraph[i].position = sf::Vector2f((i*5)+100, (val * -5)+pageInfo.window->getSize().y);
+ 			tGraph[i].position = sf::Vector2f((i*5)+100, (val * -5)+pageData.window->getSize().y);
 			tGraph[i].color = sf::Color::Red;
 
 

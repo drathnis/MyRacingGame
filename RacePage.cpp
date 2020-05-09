@@ -1,9 +1,9 @@
 ﻿#include "RacePage.h"
 
-RacePage::RacePage(GameData pageData) :Page(pageData) {
-	pageInfo = pageData;
+RacePage::RacePage(GameData *pageData) :Page(pageData) {
+	this->pageData = pageData;
 	background.setFillColor(sf::Color(60, 6, 96));
-	background.setSize(sf::Vector2f(pageInfo.window->getSize().x, pageInfo.window->getSize().y));
+	background.setSize(sf::Vector2f(pageData->window->getSize().x, pageData->window->getSize().y));
 
 
 	if (!initFonts()) {
@@ -15,7 +15,7 @@ RacePage::RacePage(GameData pageData) :Page(pageData) {
 		this->quitePage();
 	}
 
-	playerCar = pageInfo.player->getCar();
+	playerCar = pageData->player->getCar();
 
 	debounceTimer.setInterval(milliseconds(200));
 
@@ -28,7 +28,7 @@ RacePage::RacePage(GameData pageData) :Page(pageData) {
 	opCar = Car('A');
    // playerCar = Car('A');
 	
-	if (pageInfo.player->getMoney()>500){
+	if (pageData->player->getMoney()>500){
 		enoughMoney = true;
 		infoString = "Press Start To Begin";
 		infoString2 = " ";
@@ -38,7 +38,7 @@ RacePage::RacePage(GameData pageData) :Page(pageData) {
 		infoString2 = "money to race";
 	}
 
-	pageInfo.player->subtractMoney(10000);
+	pageData->player->subtractMoney(10000);
 
 }
 
@@ -190,29 +190,29 @@ void RacePage::initWaterTemp() {
 void RacePage::renderProgress() {
 
 
-	pageInfo.window->draw(playerProgBase);
-	pageInfo.window->draw(opProgBase);
+	pageData->window->draw(playerProgBase);
+	pageData->window->draw(opProgBase);
 
-	pageInfo.window->draw(playerProg);
-	pageInfo.window->draw(opProg);
+	pageData->window->draw(playerProg);
+	pageData->window->draw(opProg);
 
 
 }
 
 void RacePage::renderGraphics() {
 
-	pageInfo.window->draw(tachometerSprite);
+	pageData->window->draw(tachometerSprite);
 
 	needleSpite.setRotation(mapVals(rpms, 0, playerCar.getMaxRPM(), 236, 485));
 
-	pageInfo.window->draw(needleSpite);
+	pageData->window->draw(needleSpite);
 
-	pageInfo.window->draw(currentGearText);
+	pageData->window->draw(currentGearText);
 
-	pageInfo.window->draw(currentSpeedText);
+	pageData->window->draw(currentSpeedText);
 
-	pageInfo.window->draw(infoText);
-	pageInfo.window->draw(infoText2);
+	pageData->window->draw(infoText);
+	pageData->window->draw(infoText2);
 
 	renderWaterTemp();
 	drawLights(countDownLights);
@@ -330,12 +330,12 @@ void RacePage::race() {
 		if (playerFinishTime< opFinishTime){
 			infoString = "You Won!";
 			infoString2 = "";
-			pageInfo.player->addMoney(1000);
+			pageData->player->addMoney(1000);
 		} else {
 
 			infoString = "You Lost!  Time: " + to_string(playerFinishTime);
 			infoString2 = "opponent's Time: " + to_string(opFinishTime);
-			pageInfo.player->subtractMoney(500);
+			pageData->player->subtractMoney(500);
 		}
 
 
@@ -354,7 +354,7 @@ void RacePage::race() {
 			cout << "FALSE START!!" << endl;
 			infoString = "FALSE START!!";
 			infoString2 = "You Lose! ";
-			pageInfo.player->subtractMoney(1000);
+			pageData->player->subtractMoney(1000);
 			startRace = false;
 
 		}
@@ -539,14 +539,14 @@ void RacePage::simRace() {
 
 void RacePage::drawLights(int count) {
 	for (int i = 0; i < 4; i++) {
-		pageInfo.window->draw(circles[i]);
+		pageData->window->draw(circles[i]);
 	}
 }
 
 void RacePage::renderWaterTemp() {
 
-	pageInfo.window->draw(waterTempBg);
-	pageInfo.window->draw(waterTempFg);
+	pageData->window->draw(waterTempBg);
+	pageData->window->draw(waterTempFg);
 }
 
 void RacePage::updatePlayerInput(const double& dt) {
