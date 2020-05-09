@@ -90,6 +90,11 @@ public:
 	int getMaxRPM() {
 		return drivetrain.getEngine()->maxRpm;
 	}
+
+	Drivetrain* getDrivetrain() {
+		return &drivetrain;
+	}
+
 	string getGearRatios() {
 
 		string temp;

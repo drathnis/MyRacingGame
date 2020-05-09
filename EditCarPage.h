@@ -1,6 +1,8 @@
 #pragma once
 #include "Page.h"
 #include "button.h"
+
+
 class EditCarPage :public Page {
 
 
@@ -18,6 +20,9 @@ private:
 	sf::Text torqueText;
 	sf::Text gearText;
 
+	sf::RectangleShape *linesArry;
+	int lineCount;
+	sf::VertexArray tGraph;
 
 public:
 
@@ -29,11 +34,17 @@ public:
 
 		background.setFillColor(sf::Color(60, 6, 96));
 		background.setSize(sf::Vector2f(pageInfo.window->getSize().x, pageInfo.window->getSize().y));
-
+		cout << "setting new car" << endl;
+		//pageInfo.player->raceCar = Car('c');
+		cout << "Done setting new car" << endl;
 
 		initFonts();
 		initGraphics();
 		initButtons();
+		graphT();
+	}
+	~EditCarPage() {
+		delete[] linesArry;
 
 	}
 
@@ -82,11 +93,29 @@ public:
 
 	void graphT() {
 
+		int rpms = (p->raceCar.getDrivetrain()->getEngine()->maxRpm/100)-9;
+		int val;
+		cout<<"rpms " << rpms<<endl;
+
+		lineCount = rpms;
+		//lines = new sf::RectangleShape[lineCount];
+
+ 		tGraph = sf::VertexArray(sf::LineStrip, lineCount);
+		
+ 
+ 		for (size_t i = 0; i < lineCount; i++) {
+ 			val = p->raceCar.getDrivetrain()->getEngine()->tCurve[i];
+ 			cout<< val <<endl;
+ 
+ 			tGraph[i].position = sf::Vector2f((i*5)+100, (val * -5)+pageInfo.window->getSize().y);
+			tGraph[i].color = sf::Color::Red;
 
 
-// 		for (size_t i = 0; i < p->raceCar.getMaxRPM(); i++) {
-// 			p->raceCar;
-// 		}
+
+ 		}
+
+
+
 
 
 	}
@@ -110,6 +139,17 @@ public:
 
 		wind->draw(gearText);
 
+		sf::VertexArray lines(sf::LineStrip, 10);
+		lines[0].position = sf::Vector2f(100, 10);
+		lines[1].position = sf::Vector2f(120, 10);
+		lines[2].position = sf::Vector2f(130, 15);
+		lines[3].position = sf::Vector2f(140, 12);
+
+		wind->draw(lines);
+
+		
+
+		wind->draw(tGraph);
 	}
 
 	void renderButtons(sf::RenderTarget* target) {

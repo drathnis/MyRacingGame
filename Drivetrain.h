@@ -111,6 +111,7 @@ public:
 		int tempCount = 0;
 		double temp = 0;
 		string fileName = "torque/class" + rClass + "_t.txt";
+		cout << fileName << endl;
 		ifstream  myfile;
 		myfile.open(fileName);
 		string temp1;

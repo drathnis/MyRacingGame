@@ -44,6 +44,9 @@ void Mygame::initPlayer() {
 	gameData.player = new Player;
 	cout << "Created Player"<< endl;	
 	gameData.player->addMoney(10000);
+
+
+
 	//TODO
 }
 
