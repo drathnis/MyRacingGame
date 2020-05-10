@@ -213,13 +213,13 @@ public:
 		while (!myfile.eof()) {
 
 			myfile >> temp1;
-			trans.gearRatio[tempCount++] = stod(temp1);
+			trans.gearRatio[++tempCount] = stod(temp1);
 
 		}
-
+		trans.gearRatio[0] = 0;
 		trans.highestGear = tempCount;
 		
-		for (size_t i = tempCount; i < GEAR_MAX; i++) {
+		for (size_t i = tempCount+1; i < GEAR_MAX; i++) {
 			trans.gearRatio[i] = 0; //test this
 		}
 

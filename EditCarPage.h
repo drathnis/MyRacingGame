@@ -29,6 +29,8 @@ private:
 	
 	sf::RectangleShape graphBox;
 
+	sf::Texture backgroundTexture;
+
 	string infoString;
 	string costStr;
 	stringstream tempStream;
@@ -49,8 +51,17 @@ public:
 
 		p = pageData->player;
 
-		background.setFillColor(sf::Color(60, 6, 96));
 		background.setSize(sf::Vector2f(pageData->window->getSize().x, pageData->window->getSize().y));
+
+		if (initBackGournd()) {
+
+			background.setTexture(&backgroundTexture);
+
+		} else {
+			background.setFillColor(sf::Color(60, 6, 96));
+		}
+
+
 		
 		sizeX = pageData->window->getSize().x;
 		sizeY = pageData->window->getSize().y;
@@ -65,6 +76,15 @@ public:
 	~EditCarPage() {
 		delete[] linesArry;
 
+	}
+
+	bool initBackGournd() {
+
+		if (!backgroundTexture.loadFromFile("Resources/UpgradePage.jpg")) {
+			return false;
+		}
+
+		return true;
 	}
 
 	void initButtons() {
@@ -169,6 +189,8 @@ public:
 		loadToqueData();
 	}
 
+
+
 	void loadToqueData() {
 		
 		int rpms = p->raceCar->getDrivetrain()->getEngine()->maxRpm;
@@ -195,55 +217,55 @@ public:
 
 	}
 
-	void graphT() {
-
-// 		Car tCar('A');
-// 
-// 		tCar = *p->raceCar;
-
-		int rpms = p->raceCar->getDrivetrain()->getEngine()->maxRpm;
-		int val;
-
-		int x;
-		int y;
-		double yMin = p->raceCar->getDrivetrain()->getEngine()->minT;
-		double yMax = p->raceCar->getDrivetrain()->getEngine()->maxT;
-
-		cout << yMin << " " << yMax<<endl;
-
-		cout<<"rpms " << rpms<<endl;
-
-		lineCount = rpms;
-		//lines = new sf::RectangleShape[lineCount];
-
-		graphBox.setPosition(30,110);
-		graphBox.setFillColor(sf::Color::White);
-		graphBox.setSize(sf::Vector2f(900, 500));
-
-		tGraph = sf::VertexArray(sf::LinesStrip, lineCount);
-		
-		
-		for (size_t i = 1000; i < lineCount; i++) {
-			val = getExactT(i);
-			//cout<< val <<endl;
-			//x = mapVals(i, 0, lineCount, 0, 900);
-			//y = mapVals(val, 0, yMax, 0, 300);
-			//cout << i << " " << val << endl;
-
-			//tGraph[i].position = sf::Vector2f(x, y);
-			
-
-			x = ((i-1000) / 10) + 100;
-			y = (val / 3) + 300;
-			cout << x << " " << y << endl;
-			tGraph[i].position = sf::Vector2f(x, y);
-			
-			
-			tGraph[i].color = sf::Color::Red;
-
-
-
-		}
+//	void graphT() {
+//
+//// 		Car tCar('A');
+//// 
+//// 		tCar = *p->raceCar;
+//
+//		int rpms = p->raceCar->getDrivetrain()->getEngine()->maxRpm;
+//		int val;
+//
+//		int x;
+//		int y;
+//		double yMin = p->raceCar->getDrivetrain()->getEngine()->minT;
+//		double yMax = p->raceCar->getDrivetrain()->getEngine()->maxT;
+//
+//		cout << yMin << " " << yMax<<endl;
+//
+//		cout<<"rpms " << rpms<<endl;
+//
+//		lineCount = rpms;
+//		//lines = new sf::RectangleShape[lineCount];
+//
+//		graphBox.setPosition(30,110);
+//		graphBox.setFillColor(sf::Color::White);
+//		graphBox.setSize(sf::Vector2f(900, 500));
+//
+//		tGraph = sf::VertexArray(sf::LinesStrip, lineCount);
+//		
+//		
+//		for (size_t i = 1000; i < lineCount; i++) {
+//			val = getExactT(i);
+//			//cout<< val <<endl;
+//			//x = mapVals(i, 0, lineCount, 0, 900);
+//			//y = mapVals(val, 0, yMax, 0, 300);
+//			//cout << i << " " << val << endl;
+//
+//			//tGraph[i].position = sf::Vector2f(x, y);
+//			
+//
+//			x = ((i-1000) / 10) + 100;
+//			y = (val / 3) + 300;
+//			cout << x << " " << y << endl;
+//			tGraph[i].position = sf::Vector2f(x, y);
+//			
+//			
+//			tGraph[i].color = sf::Color::Red;
+//
+//
+//
+//		}
 
 
 // 		for (size_t i = 0; i < tCar.getDrivetrain()->getEngine()->maxRpm; i++) {
@@ -251,51 +273,8 @@ public:
 // 		}
 
 
-	}
+//	}
 
-	double getExactT(int index) {
-
-		//Car tCar('A');
-
-		//tCar = *p->raceCar;
-
-		int vCount = p->raceCar->getDrivetrain()->getEngine()->maxRpm;
-		
-		double lastVal;
-		double nextVal;
-		double lastI;
-		double m;
-		double newVal;
-
-		if (index<1000){
-			return 0;
-		}
-		//cout << vCount << endl;
-
-		//return 0;
-		for (int i = 0; i < (vCount)-999; i++) {
-			if (i % 100 == 0) {
-				
-				lastVal = p->raceCar->getDrivetrain()->getEngine()->tCurve[i / 100];
-				//cout << lastVal << endl;
-				lastI = i;
-				if (i / 100 < vCount - 1) {
-					nextVal = p->raceCar->getDrivetrain()->getEngine()->tCurve[(i / 100) + 1];
-				}
-			} else {
-
-				m = (nextVal - lastVal) / 100;
-
-				newVal = m * (i - lastI) + lastVal;
-				//cout << newVal << endl;
-			}
-			if (i == index) {
-				return newVal;
-			}
-
-		}
-		return newVal;
-	}
 
 	double getNewVals(double a, double b, int index) {
 
@@ -312,9 +291,9 @@ public:
 
 	}
 
-	double mapVals(double x, double in_min, double in_max, double out_min, double out_max) {
-		return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-	}
+// 	double mapVals(double x, double in_min, double in_max, double out_min, double out_max) {
+// 		return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+// 	}
 
 	void initFonts() {
 		if (!font.loadFromFile("Fonts/Roboto-Regular.ttf")) {
@@ -387,6 +366,7 @@ public:
 		costText.setString("$"+costStr);
 
 	}
+	
 	void updateButtons() {
 		for (auto& it : this->buttons) {
 			it.second->update(mousePosView);

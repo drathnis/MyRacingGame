@@ -6,15 +6,27 @@ MainPage::MainPage(GameData *pageData) :Page(pageData) {
 	cout << "MainPage" << endl;
 	pageInfo = *pageData;
 
-	background.setFillColor(sf::Color(14, 25, 179));
 	background.setSize(sf::Vector2f((float)pageInfo.window->getSize().x, (float)pageInfo.window->getSize().y));
+
 
 	initFonts();
 	initButtons();
 
+	if (initBackGournd()) {
+		
+		
+		background.setRotation(270);
+		background.setPosition(100, (float)pageInfo.window->getSize().y);
 
+		background.setTexture(&backgroundTexture);
+	} else {
+		background.setFillColor(sf::Color(14, 25, 179));
+
+	}
 
 }
+
+
 
 MainPage::~MainPage() {
 	auto it = buttons.begin();
@@ -23,21 +35,31 @@ MainPage::~MainPage() {
 	}
 }
 
+bool MainPage::initBackGournd() {
+
+	if (!backgroundTexture.loadFromFile("Resources/FontPage.jpg")) {
+		return false;
+	}
+
+	return true;
+}
+
+
 void MainPage::initButtons() {
 	buttons["GAME_STATE"] = new Button(
-		350, 100,
+		350, 400,
 		325, 80,
 		&font, "Play Game", 60,
-		sf::Color::Red, sf::Color::Green, sf::Color::Blue,
-		sf::Color::Blue, sf::Color::Magenta, sf::Color::Cyan
+		sf::Color::Red, sf::Color::Green, sf::Color::Black,
+		sf::Color::Transparent, sf::Color::Transparent, sf::Color::Cyan
 	);
 
 	buttons["EXIT_STATE"] = new Button(
-		450, 200,
+		450, 500,
 		150, 80,
 		&font, "EXIT", 60,
 		sf::Color(0, 0, 0), sf::Color(0, 0, 0), sf::Color(0, 0, 0),
-		sf::Color(230, 0, 0), sf::Color(100, 0, 0), sf::Color(255, 0, 0)
+		sf::Color::Transparent, sf::Color(100, 0, 0), sf::Color(255, 0, 0)
 	);
 }
 
@@ -115,5 +137,7 @@ void MainPage::initFonts() {
 void MainPage::render(sf::RenderTarget* wind) {
 	
 	pageInfo.window->draw(background);
+	//pageInfo.window->draw(backgroundImg);
+
 	renderButtons(wind);
 }

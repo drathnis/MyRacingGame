@@ -18,6 +18,7 @@ class MainPage :public Page {
 
 		GameData pageInfo;
 
+		sf::Image backgroundImg;
 
 	public:
 
@@ -25,6 +26,8 @@ class MainPage :public Page {
 
 		~MainPage();
 
+		
+		bool initBackGournd();
 
 
 		void renderButtons(sf::RenderTarget& target);;

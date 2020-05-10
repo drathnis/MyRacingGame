@@ -2,15 +2,35 @@
 
 GamePage::GamePage(GameData *pageData) :Page(pageData) {
 	this->pageData = *pageData;
-	background.setFillColor(sf::Color(60, 6, 96));
+	
 	background.setSize(sf::Vector2f(this->pageData.window->getSize().x, this->pageData.window->getSize().y));
 
 	initFonts();
 	initButtons();
 	initPlayerInfo();
 
+	if (initBackGournd()) {
+
+		background.setTexture(&backgroundTexture);
+		infoBox.setTexture(&backgroundTexture);
+		//btnBackground
+
+	} else {
+		background.setFillColor(sf::Color(60, 6, 96));
+	}
 
 
+
+}
+
+
+bool GamePage::initBackGournd() {
+
+	if (!backgroundTexture.loadFromFile("Resources/backgroundBlank.png")) {
+		return false;
+	}
+
+	return true;
 }
 
 GamePage::~GamePage() {
@@ -155,9 +175,11 @@ void GamePage::initPlayerInfo() {
 	infoBox.setSize(sf::Vector2f(400, 400));
 	infoBox.setOutlineColor(sf::Color::Red);
 	infoBox.setPosition(60, 50);
-	infoBox.setFillColor(sf::Color(60, 6, 96));
+	//infoBox.setFillColor(sf::Color(255, 6, 255));
 	infoBox.setOutlineThickness(5);
 	
+
+
 	infoTxt.setFillColor(sf::Color::Yellow);
 	infoTxt.setFont(font);
 	infoTxt.setString("Player Info:");

@@ -51,6 +51,7 @@ private:
 	sf::Text currentSpeedText;
 	sf::Text infoText;
 	sf::Text infoText2;
+	sf::Text controlsText;
 	
 	sf::SoundBuffer contDownBuff;
 	sf::SoundBuffer contDownGOBuff;
@@ -60,6 +61,7 @@ private:
 
 	string infoString; 
 	string infoString2;
+	string controlsStr;
 
 	GameData *pageData;
 	Car *playerCar;

@@ -6,7 +6,7 @@
 
 
 #include "Drivetrain.h"
-
+#include <cmath>
 enum class CarPart {
 	body,
 	engine,
@@ -70,8 +70,8 @@ public:
 
 		drivetrain = new Drivetrain(ratingClass);
 
-		//calcTopSpeedPerGear();
-		calRPMInc();
+		calcTopSpeedPerGear();
+		//calRPMInc();
 
 	};
 
@@ -80,6 +80,7 @@ public:
 		delete drivetrain;
 
 	}
+	
 	void upgradeTurbo() {
 		drivetrain->upgradeTurbo();
 		drivetrain->loadTcuve();
@@ -110,7 +111,6 @@ public:
 
 	}
 
-
 	bool upgradeEng() {
 
 		if (drivetrain->getEngine()->cRating == 'C') {
@@ -130,7 +130,6 @@ public:
 
 	}
 
-
 	char getCarClass() {
 		return ratingClass[0];
 	}
@@ -139,6 +138,7 @@ public:
 		return drivetrain->getTransmistion()->highestGear;
 
 	}
+	
 	double getTopSpeed(int gear) {
 		return topSpeedperGear[gear];
 	}
@@ -162,80 +162,169 @@ public:
 		return temp;
 	}
 
-	int getGearSpeeds(int index) {
+	//int getGearSpeeds(int index) {
 
-		return gearSpeeds[index];
-	}
+	//	return gearSpeeds[index];
+	//}
 
-	void calRPMInc() {
+	//void calRPMInc() {
 
-		double resault;
+	//	double resault;
 
-		int max = drivetrain->getTransmistion()->highestGear+1;
-		gearSpeeds[0] = 60;
+	//	int max = drivetrain->getTransmistion()->highestGear+1;
+	//	gearSpeeds[0] = 60;
 
-		for (size_t i = 1; i < max; i++) {
-			 resault = drivetrain->getTransmistion()->gearRatio[i - 1] * 15;
-			 gearSpeeds[i] = resault;
-			 //cout << gearSpeeds[i] << endl;
-		}
+	//	for (size_t i = 1; i < max; i++) {
+	//		 resault = drivetrain->getTransmistion()->gearRatio[i - 1] * 15;
+	//		 gearSpeeds[i] = resault;
+	//		 cout << gearSpeeds[i] << endl;
+	//	}
 
-		
+	//	
 
-	}
+	//}
 
 
 	double getAccel(int gear, int rpm, double speed) {
 
-
-
-		double accTest;
+		double acceleration;
 		double resistance;
-		double fronal = frontArea;
-		if (rpm < 1000) {
-			return 0;
-		} else if (rpm > RPM_MAX) {
-				return 0;
-		}
-		
-
-		int rpmIndex = (rpm / 100) - 10;
-		double toque = drivetrain->getEngine()->tCurve[rpmIndex];
+		double airR;
+		double rollR;
+		double rollC;
+		//int rpmIndex = (rpm / 100) - 10;
+		//double toque 
 
 
-		double torq = toque;
+		double toque = getExactT(rpm);
 		double dif = drivetrain->getTransmistion()->diferentialRatio;
-		double gearR = drivetrain->getTransmistion()->gearRatio[gear-1];
+		double gearR = drivetrain->getTransmistion()->gearRatio[gear];
 
 
-		double tAtWhell = (torq * dif * gearR) / (wheelD / 12);
+		double tAtWheel = (toque * dif * gearR) / (wheelD / 12);
 		
-		//printf("Torque %.03f\n", tAtWhell);
+		//printf("Torque %.03f\n", tAtWheel);
 
 		double spd = (speed * .3048) * (speed * .3048);
-		accTest = tAtWhell / weight; //g's
+		acceleration = tAtWheel / weight; //g's
 
 
 
 		//double Drag = dCd * A * r * (.5 * V);
 
-		resistance = .5 * (AIR_DENSITY * spd * frontArea * dragCo);
-		double W = weight * accTest;
-		accTest = (W - resistance) / weight;
+		airR = .5 * (AIR_DENSITY * spd * frontArea * dragCo);
+
+		//Fr = 0.03 (1500 kg) (9.81 m / s2)
+
+		//rollR = 0.03 (1500 kg) (9.81 m / s2);
+		
+		double tirePressure = 2.9;
+		double kph = speed * 1.09728;
+		
+		//kph = 90;
+
+		rollC = 0.005 + (1 / tirePressure) * (0.01 + 0.0095 * pow((kph / 100.0),2));
+		//cout << "RC" << rollC<<endl;
+
+
+		rollR = rollC*(weight* 0.453592)*(9.81);
+
+
+	//	cout << "RR" << rollR << endl;
+
+		resistance = airR;// +rollR;
+		double W = weight * acceleration;
+		acceleration = (W - resistance) / weight;
 		
 
 		//cout << "Resistance " << resistance  << endl;
-		//cout << accTest << "G's with drag" << endl;
+		//cout << acceleration << "G's with drag" << endl;
 
 
-		return accTest;
+		return acceleration;
 
+	}
+
+	double CalcResistance(double spd) {
+		
+		double 	resistance;
+		double tirePressure = 2.9;
+		double kph = spd * 1.09728;
+
+		double airR;
+		double rollR;
+		double rollC;
+
+		//kph = 90;
+
+		rollC = 0.005 + (1 / tirePressure) * (0.01 + 0.0095 * pow((kph / 100.0), 2));
+
+		rollR = rollC * (weight * 0.453592) * (9.81);
+
+		
+		resistance = rollR + (.5 * (AIR_DENSITY * spd * frontArea * dragCo));
+		return resistance;
+	}
+
+
+	double calcToque(int rpm, int gear) {
+
+		//double toque = getExactT(rpm);
+		double differential = drivetrain->getTransmistion()->diferentialRatio;
+		double gearRatio = drivetrain->getTransmistion()->gearRatio[gear];
+
+
+		double tAtWheel = (getExactT(rpm) * differential * gearRatio) / (wheelD / 12);
+
+		return tAtWheel;
+	}
+
+	double getExactT(int index) {
+
+		//Car tCar('A');
+
+		//tCar = *p->raceCar;
+
+		//int revCount = p->raceCar->getDrivetrain()->getEngine()->maxRpm;
+		int revCount = drivetrain->getEngine()->maxRpm;
+		double lastVal;
+		double nextVal;
+		double lastI;
+		double m;
+		double newVal;
+
+		if (index < 1000) {
+			return 0;
+		}
+		//cout << vCount << endl;
+
+		//return 0;
+		for (int i = 0; i < (revCount)-999; i++) {
+			if (i % 100 == 0) {
+
+				lastVal = drivetrain->getEngine()->tCurve[i / 100];
+				//cout << lastVal << endl;
+				lastI = i;
+				if (i / 100 < revCount - 1) {
+					nextVal = drivetrain->getEngine()->tCurve[(i / 100) + 1];
+				}
+			} else {
+
+				m = (nextVal - lastVal) / 100;
+
+				newVal = m * (i - lastI) + lastVal;
+				//cout << newVal << endl;
+			}
+			if (i == index) {
+				return newVal;
+			}
+
+		}
+		return newVal;
 	}
 
 
 	void calcTopSpeedPerGear() {
-
-
 
 		double topSpeed;
 		double tireMovePre10;
@@ -243,9 +332,9 @@ public:
 		double speed;
 		double dif = drivetrain->getTransmistion()->diferentialRatio;
 
-		for (size_t i = 1; i < drivetrain->getTransmistion()->highestGear +1.0; i++) {
+		for (size_t i = 0; i < drivetrain->getTransmistion()->highestGear +1.0; i++) {
 			tireMovePre10 = wheelD * 3.14;
-			rearRatio = drivetrain->getTransmistion()->gearRatio[i-1] * dif;
+			rearRatio = drivetrain->getTransmistion()->gearRatio[i] * dif;
 			speed = getMaxRPM() * 60.0 / rearRatio * tireMovePre10; //gear ratio speed = inches per hour
 			topSpeed = speed / (5280 * 12.0);
 			topSpeedperGear[i]= topSpeed;
@@ -254,11 +343,10 @@ public:
 
 		topSpeedperGear[0] = 0;
 
-
 	}
 
 
-
+	
 
 
 };

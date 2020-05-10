@@ -37,6 +37,8 @@ public:
 
 	GamePage(GameData *pageData);;
 
+	bool initBackGournd();
+
 	~GamePage();;
 	void initFonts();;
 
