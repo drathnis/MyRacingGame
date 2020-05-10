@@ -26,7 +26,7 @@ Mygame::~Mygame() {
 }
 
 void Mygame::gameLoop() {
-	cout << "Run";
+	cout << "Run"<<endl;
 	while (window->isOpen()) {
 
 		updateTime();
@@ -35,7 +35,7 @@ void Mygame::gameLoop() {
 		update();
 
 	}
-	cout << "EndLoop";
+	cout << "EndLoop"<<endl;
 	return;
 }
 
@@ -44,7 +44,7 @@ void Mygame::initPlayer() {
 	gameData.player = new Player;
 	cout << "Created Player"<< endl;	
 	gameData.player->addMoney(10000);
-
+	gameData.player->raceCar = new Car('c');
 
 
 	//TODO

@@ -15,7 +15,9 @@ RacePage::RacePage(GameData *pageData) :Page(pageData) {
 		this->quitePage();
 	}
 
-	playerCar = pageData->player->getCar();
+	initSounds();
+
+	playerCar = pageData->player->raceCar;
 
 	debounceTimer.setInterval(milliseconds(200));
 
@@ -26,7 +28,7 @@ RacePage::RacePage(GameData *pageData) :Page(pageData) {
 	rpms = 0;
 
 	opCar = Car('A');
-   // playerCar = Car('A');
+
 	
 	if (pageData->player->getMoney()>500){
 		enoughMoney = true;
@@ -40,6 +42,24 @@ RacePage::RacePage(GameData *pageData) :Page(pageData) {
 
 	pageData->player->subtractMoney(10000);
 
+}
+
+
+void RacePage::initSounds() {
+
+	if (!contDownBuff.loadFromFile("Resources/go.wav")){
+		cout << "Could Not Load Sound";
+	}
+
+	
+	if (!contDownGOBuff.loadFromFile("Resources/ready.wav")) {
+		cout << "Could Not Load Sound";
+	}
+	readySound.setBuffer(contDownBuff);
+	goSound.setBuffer(contDownGOBuff);
+
+	readySound.setVolume(50);
+	goSound.setVolume(50);
 }
 
 void RacePage::initLights() {
@@ -203,7 +223,7 @@ void RacePage::renderGraphics() {
 
 	pageData->window->draw(tachometerSprite);
 
-	needleSpite.setRotation(mapVals(rpms, 0, playerCar.getMaxRPM(), 236, 485));
+	needleSpite.setRotation(mapVals(rpms, 0, playerCar->getMaxRPM(), 236, 485));
 
 	pageData->window->draw(needleSpite);
 
@@ -293,23 +313,35 @@ void RacePage::updateWaterTemp() {
 }
 
 void RacePage::race() {
+	int elapsedTime;
+	static int lastElapsedTime =100;
 	
+	//readySound.stop();
 	if (countDown) {
 		sf::Time elapsed = clock.getElapsedTime();
-		int elapsedTime = (int)elapsed.asSeconds();
+		elapsedTime = (int)elapsed.asSeconds();
+		if (elapsedTime == lastElapsedTime) {
+			return;
+		}
+
+		lastElapsedTime = elapsedTime;
 
 		switch (elapsedTime) {
 		case 0:
 			circles[0].setFillColor(sf::Color::Yellow);
+			readySound.play();
+			
 			break;
 		case 1:
 			circles[1].setFillColor(sf::Color::Yellow);
-
+			readySound.play();
 			 break;
 		case 2:
 			circles[2].setFillColor(sf::Color::Yellow);
+			readySound.play();
 			break;
 		case 3:
+			goSound.play();
 			cout << "0" << endl;
 			cout << "RACE!!!" << endl;
 			circles[3].setFillColor(sf::Color::Green);
@@ -367,23 +399,23 @@ void RacePage::race() {
 void RacePage::userRpms() {
 
 	double dif;
-	double maxSpeed = playerCar.getTopSpeed(gear);
+	double maxSpeed = playerCar->getTopSpeed(gear);
 
 	if (throttle) {
-		rpms += playerCar.getGearSpeeds(gear);
+		rpms += playerCar->getGearSpeeds(gear);
 
 		dif = speed - maxSpeed;
 		//        printf("dif: %f\n", dif);
 		if (speed > maxSpeed - 3) {
 			dif = speed - maxSpeed;
-			rpms += playerCar.getGearSpeeds(gear) + 30 + dif * 2;
+			rpms += playerCar->getGearSpeeds(gear) + 30 + dif * 2;
 		}
 
 
 		// printf("inc by %d\n", playerCar.getGearSpeeds(gear));
 
-		if (rpms > playerCar.getMaxRPM()) {
-			rpms = playerCar.getMaxRPM();
+		if (rpms > playerCar->getMaxRPM()) {
+			rpms = playerCar->getMaxRPM();
 		}
 
 	} else {
@@ -399,11 +431,11 @@ void RacePage::userRpms() {
 
 void RacePage::runRace() {
 
-	double maxSpeed = playerCar.getTopSpeed(gear);
+	double maxSpeed = playerCar->getTopSpeed(gear);
   
 
 	if (gear > 1) {
-		if (speed < playerCar.getTopSpeed(gear - 1)) {
+		if (speed < playerCar->getTopSpeed(gear - 1)) {
 		   // printf("STALL!\n");
 		}
 	
@@ -415,7 +447,7 @@ void RacePage::runRace() {
 		}
 
 
-			double temp = playerCar.getAccel(gear, rpms, speed); //gs
+			double temp = playerCar->getAccel(gear, rpms, speed); //gs
 
 			if (temp < 0) {
 				temp = 0;
@@ -435,7 +467,7 @@ void RacePage::runRace() {
 		
 	}
 
-	if (rpms>playerCar.getMaxRPM()-500){
+	if (rpms>playerCar->getMaxRPM()-500){
 
 		waterTemp += 9;
 		printf("heat: %d\n", waterTemp);
@@ -554,8 +586,8 @@ void RacePage::updatePlayerInput(const double& dt) {
 		//cout << "W" << endl;
 		gear++;
 		rpms /= 3;
-		if (gear > playerCar.getMaxGear()) {
-			gear = playerCar.getMaxGear();
+		if (gear > playerCar->getMaxGear()) {
+			gear = playerCar->getMaxGear();
 		}
 		debounceTimer.reset();
 	}

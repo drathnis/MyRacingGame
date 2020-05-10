@@ -7,13 +7,19 @@
 
 #include "Drivetrain.h"
 
+enum class CarPart {
+	body,
+	engine,
+	turbo
+
+};
 
 class Car {
 
 private:
 
 
-	Drivetrain drivetrain;
+	Drivetrain *drivetrain;
 
 	//static const int MAX_NUMBER_OF_GEARS = 9;
 
@@ -38,14 +44,12 @@ private:
 
 public:
 
-
-
 	Car(char ratingClass = 'C'){
 
-
+		cout << "Creating Car: Class "<<ratingClass << endl;
 		this->ratingClass = toupper(ratingClass);
 
-		switch (ratingClass) {
+		switch (toupper(ratingClass)) {
 		case 'A':
 			frontArea = 16.8 * metSqu;
 			weight = 3000;
@@ -57,15 +61,14 @@ public:
 			dragCo = .26;
 			break;
 		case 'C':
-			frontArea = 23.3* metSqu;
+		default:
+			frontArea = 23.3 * metSqu;
 			weight = 5000;
 			dragCo = .3;
 			break;
-		default:
-			break;
 		}
 
-		drivetrain = Drivetrain(ratingClass);
+		drivetrain = new Drivetrain(ratingClass);
 
 		//calcTopSpeedPerGear();
 		calRPMInc();
@@ -74,13 +77,62 @@ public:
 
 
 	~Car() {
-		cout << "deleted"<<endl;
-		//TODO delete [] tCurve;
+		delete drivetrain;
+
+	}
+	void upgradeTurbo() {
+		drivetrain->upgradeTurbo();
+		drivetrain->loadTcuve();
 
 	}
 
+	bool upgradeCar() {
+		
+		if (ratingClass[0] == 'C') {
+			ratingClass = "B";
+			frontArea = 19.1 * metSqu;
+			weight = 4500;
+			dragCo = .26;
+
+		} else if (ratingClass[0] == 'B') {
+			ratingClass = "A";
+			frontArea = 16.8 * metSqu;
+			weight = 3000;
+			dragCo = .22;
+
+
+		} else return false;
+
+			
+		return true;
+
+	}
+
+
+	bool upgradeEng() {
+
+		if (drivetrain->getEngine()->cRating == 'C') {
+			drivetrain->setEngineClass('B');
+			cout << "Upgrading Engine to " << 'B' << endl;
+
+		} else if (drivetrain->getEngine()->cRating== 'B') {
+			drivetrain->setEngineClass('A');
+			cout << "Upgrading Engine to " << 'A' << endl;
+
+		} else return false;
+
+
+		return true;
+
+	}
+
+
+	char getCarClass() {
+		return ratingClass[0];
+	}
+
 	int getMaxGear() {
-		return drivetrain.getTransmistion()->highestGear;
+		return drivetrain->getTransmistion()->highestGear;
 
 	}
 	double getTopSpeed(int gear) {
@@ -88,19 +140,19 @@ public:
 	}
 
 	int getMaxRPM() {
-		return drivetrain.getEngine()->maxRpm;
+		return drivetrain->getEngine()->maxRpm;
 	}
 
 	Drivetrain* getDrivetrain() {
-		return &drivetrain;
+		return drivetrain;
 	}
 
 	string getGearRatios() {
 
 		string temp;
 		stringstream tempStream;
-		for (size_t i = 0; i < drivetrain.getTransmistion()->highestGear; i++) {
-			tempStream << fixed << setprecision(2) << drivetrain.getTransmistion()->gearRatio[i]<<" ";
+		for (size_t i = 0; i < drivetrain->getTransmistion()->highestGear; i++) {
+			tempStream << fixed << setprecision(2) << drivetrain->getTransmistion()->gearRatio[i]<<" ";
 		}
 		temp = tempStream.str();
 		return temp;
@@ -115,13 +167,13 @@ public:
 
 		double resault;
 
-		int max = drivetrain.getTransmistion()->highestGear+1;
+		int max = drivetrain->getTransmistion()->highestGear+1;
 		gearSpeeds[0] = 60;
 
 		for (size_t i = 1; i < max; i++) {
-			 resault = drivetrain.getTransmistion()->gearRatio[i - 1] * 15;
+			 resault = drivetrain->getTransmistion()->gearRatio[i - 1] * 15;
 			 gearSpeeds[i] = resault;
-			 cout << gearSpeeds[i] << endl;
+			 //cout << gearSpeeds[i] << endl;
 		}
 
 		
@@ -144,12 +196,12 @@ public:
 		
 
 		int rpmIndex = (rpm / 100) - 10;
-		double toque = drivetrain.getEngine()->tCurve[rpmIndex];
+		double toque = drivetrain->getEngine()->tCurve[rpmIndex];
 
 
 		double torq = toque;
-		double dif = drivetrain.getTransmistion()->diferentialRatio;
-		double gearR = drivetrain.getTransmistion()->gearRatio[gear-1];
+		double dif = drivetrain->getTransmistion()->diferentialRatio;
+		double gearR = drivetrain->getTransmistion()->gearRatio[gear-1];
 
 
 		double tAtWhell = (torq * dif * gearR) / (wheelD / 12);
@@ -185,11 +237,11 @@ public:
 		double tireMovePre10;
 		double rearRatio;
 		double speed;
+		double dif = drivetrain->getTransmistion()->diferentialRatio;
 
-
-		for (size_t i = 1; i < drivetrain.getTransmistion()->highestGear +1.0; i++) {
+		for (size_t i = 1; i < drivetrain->getTransmistion()->highestGear +1.0; i++) {
 			tireMovePre10 = wheelD * 3.14;
-			rearRatio = drivetrain.getTransmistion()->gearRatio[i-1] * drivetrain.getTransmistion()->diferentialRatio;
+			rearRatio = drivetrain->getTransmistion()->gearRatio[i-1] * dif;
 			speed = getMaxRPM() * 60.0 / rearRatio * tireMovePre10; //gear ratio speed = inches per hour
 			topSpeed = speed / (5280 * 12.0);
 			topSpeedperGear[i]= topSpeed;

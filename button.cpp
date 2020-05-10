@@ -24,7 +24,7 @@ Button::Button(float x, float y, float width, float height,
 	this->text.setString(text);
 	this->text.setFillColor(text_idle_color);
 	this->text.setCharacterSize(character_size);
-	std::cout << this->text.getGlobalBounds().width << "\n";
+	//std::cout << this->text.getGlobalBounds().width << "\n";
 	this->text.setPosition(
 		this->shape.getPosition().x + (this->shape.getGlobalBounds().width / 2.f) - this->text.getGlobalBounds().width / 2.f,
 		this->shape.getPosition().y

@@ -51,14 +51,23 @@ private:
 	sf::Text currentSpeedText;
 	sf::Text infoText;
 	sf::Text infoText2;
+	
+	sf::SoundBuffer contDownBuff;
+	sf::SoundBuffer contDownGOBuff;
+	
+	sf::Sound readySound;
+	sf::Sound goSound;
+
 	string infoString; 
 	string infoString2;
 
 	GameData *pageData;
-	Car playerCar;
+	Car *playerCar;
 	Car opCar;
 
 	stringstream tempStream;
+
+
 
 	int rpms;
 	bool startRace = false;
@@ -116,6 +125,8 @@ public:
 
 
 
+	void initSounds();
+
 	void initLights();
 
 	bool initFonts();
@@ -140,7 +151,6 @@ public:
 
 	void updateInfoText();
 
-	
 	void update(const double& time);
 
 	void updateWaterTemp();

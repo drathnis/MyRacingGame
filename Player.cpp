@@ -3,20 +3,26 @@
 
 int Player::pCount = 0;
 Player::Player() {
-	money = 0;
-	pCount ++;
-	cout << "There is" << pCount << " Players" << endl;
+
+	money = 1000;
+	carUprageCost = 20000;
+	engUprageCost = 1000;
+	turbUprageCost = 100;
+	int cInc = 20000;
+	int eInc = 1000;
+	int tInc = 100;
+
 }
 
-void Player::addMoney(const double amount) {
+void Player::addMoney(double amount) {
 	money += amount;
 }
 
-void Player::subtractMoney(const double amount) {
+void Player::subtractMoney(double amount) {
 	money -= amount;
 }
 
-double Player::getMoney() {
+double Player::getMoney() const {
 	return money;
 }
 
