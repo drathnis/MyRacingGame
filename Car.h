@@ -89,12 +89,14 @@ public:
 	bool upgradeCar() {
 		
 		if (ratingClass[0] == 'C') {
+			drivetrain->setRating('B');
 			ratingClass = "B";
 			frontArea = 19.1 * metSqu;
 			weight = 4500;
 			dragCo = .26;
 
 		} else if (ratingClass[0] == 'B') {
+			drivetrain->setRating('A');
 			ratingClass = "A";
 			frontArea = 16.8 * metSqu;
 			weight = 3000;
@@ -103,7 +105,7 @@ public:
 
 		} else return false;
 
-			
+		drivetrain->loadTcuve();
 		return true;
 
 	}
@@ -114,15 +116,17 @@ public:
 		if (drivetrain->getEngine()->cRating == 'C') {
 			drivetrain->setEngineClass('B');
 			cout << "Upgrading Engine to " << 'B' << endl;
+			return true;
 
 		} else if (drivetrain->getEngine()->cRating== 'B') {
 			drivetrain->setEngineClass('A');
 			cout << "Upgrading Engine to " << 'A' << endl;
+			return true;
 
-		} else return false;
+		}
 
 
-		return true;
+		return false;
 
 	}
 

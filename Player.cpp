@@ -4,7 +4,7 @@
 int Player::pCount = 0;
 Player::Player() {
 
-	money = 1000;
+	money = 100000;
 	carUprageCost = 20000;
 	engUprageCost = 1000;
 	turbUprageCost = 100;

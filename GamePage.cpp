@@ -29,7 +29,7 @@ void GamePage::initFonts() {
 void GamePage::initButtons() {
 	buttons["UPGRADE_CAR"] = new Button(
 		500, 100,
-		150, 80,
+		180, 60,
 		&font, "Upgrade Car", 30,
 		sf::Color::Red, sf::Color::Green, sf::Color::Blue,
 		sf::Color::Blue, sf::Color::Magenta, sf::Color::Cyan
@@ -37,8 +37,16 @@ void GamePage::initButtons() {
 
 	buttons["RACE"] = new Button(
 		500, 200,
-		150, 80,
+		180, 60,
 		&font, "Race", 30,
+		sf::Color::Red, sf::Color::Green, sf::Color::Blue,
+		sf::Color::Blue, sf::Color::Magenta, sf::Color::Cyan
+	);
+
+	buttons["WIN_STATE"] = new Button(
+		110, 360,
+		300, 60,
+		&font, "WIN $100000", 30,
 		sf::Color::Red, sf::Color::Green, sf::Color::Blue,
 		sf::Color::Blue, sf::Color::Magenta, sf::Color::Cyan
 	);
@@ -46,18 +54,24 @@ void GamePage::initButtons() {
 
 	buttons["BACK_STATE"] = new Button(
 		500, 300,
-		150, 80,
+		180, 60,
 		&font, "BACK", 30,
 		sf::Color::Red, sf::Color::Green, sf::Color::Blue,
 		sf::Color::Blue, sf::Color::Magenta, sf::Color::Cyan
 	);
+
+
+
+
 }
 
 void GamePage::render(sf::RenderTarget* wind) {
 	
 	wind->draw(background);
-	renderButtons(wind);
+
 	renderPlayerInfo();
+	renderButtons(wind);
+
 }
 
 void GamePage::renderButtons(sf::RenderTarget* target) {

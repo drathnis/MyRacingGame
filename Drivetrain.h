@@ -139,6 +139,10 @@ public:
 
 	}
 
+	void setRating(char r){
+		rClass = r;
+		trans.cRating = r;
+	}
 
 	void loadTcuve() {
 		engine.maxT = 0;

@@ -163,8 +163,8 @@ public:
 
 		torqueText.setFillColor(sf::Color::White);
 		torqueText.setFont(font);
-		torqueText.setCharacterSize(10);
-		torqueText.setPosition(sf::Vector2f(10, 10));
+		torqueText.setCharacterSize(9.5);
+		torqueText.setPosition(sf::Vector2f(8, 10));
 
 		loadToqueData();
 	}
@@ -177,7 +177,7 @@ public:
 
 		stringstream tempStream;
 		
-		tempStream.str("Torque: \n");
+		tempStream<<("Torque:\n");
 		
 		cout << "Loading T Data" << endl;
 
@@ -510,9 +510,9 @@ public:
 
 				p->changeCost(CarPart::body);
 				tempStream.str("");
-				tempStream << fixed << setprecision(2) << p->getEngUpgradeCost();
+				tempStream << fixed << setprecision(2) << p->getCarUprageCost();
 				costStr = tempStream.str();
-				cout << "Updating Engine!" << endl;
+				cout << "Updating Car!" << endl;
 			}
 		}
 
