@@ -128,7 +128,7 @@ std::string Car::getGearRatios() {
 	return temp;
 }
 
-//calculates the acceleration of the car taking into account wind drag
+//calculates the acceleration of the car taking into account .d drag
 double Car::getAccel(int gear, int rpm, double speed) {
 	double acceleration;
 	double resistance;

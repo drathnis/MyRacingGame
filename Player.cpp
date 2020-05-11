@@ -15,9 +15,9 @@
 int Player::pCount = 0;
 Player::Player() {
 
-	money = 15000;
+	money = 3000;
 	carUprageCost = 20000;
-	engUprageCost = 2300;
+	engUprageCost = 3300;
 	turbUprageCost = 500;
 	cInc = 20000;
 	eInc = 1000;
@@ -32,13 +32,13 @@ Car* Player::playerCar() {
 void Player::changeCost(CarPart id) {
 	switch (id) {
 	case CarPart::body:
-		carUprageCost += cInc += 10000.0;
+		carUprageCost += (cInc += 10000.0);
 		break;
 	case CarPart::engine:
-		engUprageCost += eInc += 500;
+		engUprageCost +=(eInc += 500);
 		break;
 	case CarPart::turbo:
-		turbUprageCost += tInc += 50;
+		turbUprageCost += (tInc += 50);
 		break;
 	default:
 		break;

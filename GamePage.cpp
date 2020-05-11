@@ -75,7 +75,7 @@ void GamePage::initButtons() {
 	buttons["WIN_STATE"] = new Button(
 		110, 360,
 		300, 60,
-		&font, "WIN $100000", 30,
+		&font, "WIN $80000", 30,
 		sf::Color::Red, sf::Color::Green, sf::Color::Blue,
 		sf::Color::Blue, sf::Color::Magenta, sf::Color::Cyan
 	);
@@ -177,7 +177,7 @@ void GamePage::updateButtons() {
 			buttons["WIN_STATE"]->update(mousePosView);
 		}
 
-		if (pageData.player->getMoney()>=20000){
+		if (pageData.player->getMoney()>=80000){
 			cout << "You Won!!" << endl;
 			exit(1);
 		}
