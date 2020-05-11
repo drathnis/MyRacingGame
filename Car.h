@@ -71,7 +71,7 @@ public:
 		drivetrain = new Drivetrain(ratingClass);
 
 		calcTopSpeedPerGear();
-		//calRPMInc();
+
 
 	};
 
@@ -84,6 +84,7 @@ public:
 	void upgradeTurbo() {
 		drivetrain->upgradeTurbo();
 		drivetrain->loadTcuve();
+		calcTopSpeedPerGear();
 
 	}
 
@@ -107,6 +108,8 @@ public:
 		} else return false;
 
 		drivetrain->loadTcuve();
+		drivetrain->loadGearRatios();
+		calcTopSpeedPerGear();
 		return true;
 
 	}
@@ -116,11 +119,13 @@ public:
 		if (drivetrain->getEngine()->cRating == 'C') {
 			drivetrain->setEngineClass('B');
 			cout << "Upgrading Engine to " << 'B' << endl;
+			calcTopSpeedPerGear();
 			return true;
 
 		} else if (drivetrain->getEngine()->cRating== 'B') {
 			drivetrain->setEngineClass('A');
 			cout << "Upgrading Engine to " << 'A' << endl;
+			calcTopSpeedPerGear();
 			return true;
 
 		}
@@ -152,7 +157,6 @@ public:
 	}
 
 	string getGearRatios() {
-
 		string temp;
 		stringstream tempStream;
 		for (size_t i = 0; i < drivetrain->getTransmistion()->highestGear; i++) {
@@ -161,29 +165,6 @@ public:
 		temp = tempStream.str();
 		return temp;
 	}
-
-	//int getGearSpeeds(int index) {
-
-	//	return gearSpeeds[index];
-	//}
-
-	//void calRPMInc() {
-
-	//	double resault;
-
-	//	int max = drivetrain->getTransmistion()->highestGear+1;
-	//	gearSpeeds[0] = 60;
-
-	//	for (size_t i = 1; i < max; i++) {
-	//		 resault = drivetrain->getTransmistion()->gearRatio[i - 1] * 15;
-	//		 gearSpeeds[i] = resault;
-	//		 cout << gearSpeeds[i] << endl;
-	//	}
-
-	//	
-
-	//}
-
 
 	double getAccel(int gear, int rpm, double speed) {
 
@@ -291,7 +272,7 @@ public:
 		double nextVal;
 		double lastI;
 		double m;
-		double newVal;
+		double newVal;;
 
 		if (index < 1000) {
 			return 0;

@@ -65,7 +65,7 @@ private:
 
 	GameData *pageData;
 	Car *playerCar;
-	Car opCar;
+	Car *opCar;
 
 	stringstream tempStream;
 
@@ -94,9 +94,11 @@ private:
 	double opTopSpeed = 0;
 	int opGear = 0;
 	int lastOpGear = 0;
-	int opNeedlePos = 0;
+	int opRpms = 0;
 	double opSpeed = 0;
-	int gearChangeTime;
+
+
+	bool opThrottle = false;
 
 	bool newGearTime = true;
 	int gearTimeCount = 0;
@@ -116,14 +118,16 @@ private:
 
 	MyTimer raceTimer;
 
-
+	int gearChangeTime;
 
 
 public:
 
 	RacePage(GameData *pageData);
 
-	~RacePage() {}
+	~RacePage() {
+		delete opCar;
+	}
 
 
 
@@ -164,6 +168,8 @@ public:
 	void runRace();
 
 	void simRace();
+
+	void opRPMS();
 
 	void drawLights(int count);
 

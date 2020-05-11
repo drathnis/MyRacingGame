@@ -31,6 +31,7 @@ private:
 
 	sf::Texture backgroundTexture;
 
+	string gearRatios = "";
 	string infoString;
 	string costStr;
 	stringstream tempStream;
@@ -171,13 +172,13 @@ public:
 
 	void initCarStats() {
 
-		string temp = "";
+
 
 		//temp = Car().getGearRatios();
-		temp = p->raceCar->getGearRatios();
+		gearRatios = p->raceCar->getGearRatios();
 		gearText.setFillColor(sf::Color::White);
 		gearText.setFont(font);
-		gearText.setString(temp);
+		gearText.setString(gearRatios);
 		gearText.setCharacterSize(30);
 		gearText.setPosition(sf::Vector2f(100, 300));
 
@@ -359,6 +360,9 @@ public:
 
 		//infoString = "INFO!";
 		infoText.setString(infoString);
+
+		gearText.setString(gearRatios);
+		//gearRatios = p->raceCar->getGearRatios();
 	}
 
 	void updateCostText() {
@@ -511,6 +515,7 @@ public:
 					infoString = "Success";
 					p->subtractMoney(p->getCarUprageCost());
 					loadToqueData();
+					gearRatios = p->raceCar->getGearRatios();
 					return true;
 				} else {
 					infoString = "You Have the best Car";
@@ -529,6 +534,7 @@ public:
 				if (p->playerCar()->upgradeEng()) {
 					p->subtractMoney(p->getEngUpgradeCost());
 					loadToqueData();
+					gearRatios = p->raceCar->getGearRatios();
 					return true;
 				} else {
 					infoString = "You Have the best Engine";
@@ -547,6 +553,7 @@ public:
 				infoString = "Success";
 				p->playerCar()->upgradeTurbo();
 				p->subtractMoney(p->getTurbUprageCost());
+				gearRatios = p->raceCar->getGearRatios();
 				loadToqueData();
 				return true;
 			}
