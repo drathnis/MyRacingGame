@@ -1,14 +1,24 @@
+/***********************************************************
+*Page.cpp
+*By: Julian Stanton
+*Assignment: Final Project
+*Due 5/11/20
+*
+*Program Description:
+*	The Base class that the other pages are built on
+*
+*************************************************************/
+
 #include "Page.h"
 
 GameData::~GameData() {
+
+	delete player;
 
 }
 
 Page::Page(GameData *page) {
 	this->gameData = page;
-
-
-
 }
 
 void Page::quitePage() {
@@ -19,17 +29,14 @@ bool Page::getQuit() {
 	return quit;
 }
 
-void Page::updateMousePositions(sf::View* view /*= NULL*/) {
+void Page::updateMousePositions(sf::View* view) {
 	this->mousePosScreen = sf::Mouse::getPosition();
 	this->mousePosWindow = sf::Mouse::getPosition(*gameData->window);
 
 	if (view) {
-		//gameData.window->setView(*view);
+
 		gameData->window->setView(*view);
 	}
-
-
-
 
 	mousePosView = gameData->window->mapPixelToCoords(sf::Mouse::getPosition(*gameData->window));
 	this->mousePosGrid =

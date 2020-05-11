@@ -1,3 +1,13 @@
+/***********************************************************
+*GamePage.cpp
+*By: Julian Stanton
+*Assignment: Final Project
+*Due 5/11/20
+*
+*Program Description:
+*	the page with menu for switching between pages
+*
+*************************************************************/
 #include "GamePage.h"
 
 GamePage::GamePage(GameData *pageData) :Page(pageData) {
@@ -13,7 +23,7 @@ GamePage::GamePage(GameData *pageData) :Page(pageData) {
 
 		background.setTexture(&backgroundTexture);
 		infoBox.setTexture(&backgroundTexture);
-		//btnBackground
+
 
 	} else {
 		background.setFillColor(sf::Color(60, 6, 96));
@@ -22,7 +32,6 @@ GamePage::GamePage(GameData *pageData) :Page(pageData) {
 
 
 }
-
 
 bool GamePage::initBackGournd() {
 
@@ -159,11 +168,23 @@ void GamePage::updateButtons() {
 		pageData.states->push(new RacePage(&pageData));
 
 	}
+
+
+
+	if (buttons["WIN_STATE"]->isPressed()) {
+		
+		while (buttons["WIN_STATE"]->isPressed()) {
+			buttons["WIN_STATE"]->update(mousePosView);
+		}
+
+		if (pageData.player->getMoney()>=20000){
+			cout << "You Won!!" << endl;
+			exit(1);
+		}
+		
+	}
+	
 }
-
-
-#include "GamePage.h"
-
 
 
 
@@ -175,7 +196,6 @@ void GamePage::initPlayerInfo() {
 	infoBox.setSize(sf::Vector2f(400, 400));
 	infoBox.setOutlineColor(sf::Color::Red);
 	infoBox.setPosition(60, 50);
-	//infoBox.setFillColor(sf::Color(255, 6, 255));
 	infoBox.setOutlineThickness(5);
 	
 

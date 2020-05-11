@@ -1,15 +1,23 @@
-// MyRacingGame.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
-#include "Mygame.h"
+/***********************************************************
+*MyRazingGame.cpp
+*By: Julian Stanton
+*Assignment: Final Project
+*Due 5/11/20
+*
+*Program Description:
+*	A drag racing game by Julian Stanton, with art By Dorian Jackson
+*	GUI build with SFML
+*
+*************************************************************/
+#include "MyGame.h"
 
-using namespace std;
 
 
 
 int main() {
 
-	Mygame game;
+	MyGame game;
 	cout << "End" << endl;
 
 	return 0;

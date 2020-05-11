@@ -172,7 +172,7 @@
     <ClCompile Include="Drivetrain.cpp" />
     <ClCompile Include="GamePage.cpp" />
     <ClCompile Include="MainPage.cpp" />
-    <ClCompile Include="Mygame.cpp" />
+    <ClCompile Include="MyGame.cpp" />
     <ClCompile Include="MyRacingGame.cpp" />
     <ClCompile Include="myTimer.cpp" />
     <ClCompile Include="Page.cpp" />
@@ -186,7 +186,7 @@
     <ClInclude Include="Drivetrain.h" />
     <ClInclude Include="GamePage.h" />
     <ClInclude Include="MainPage.h" />
-    <ClInclude Include="Mygame.h" />
+    <ClInclude Include="MyGame.h" />
     <ClInclude Include="myTimer.h" />
     <ClInclude Include="Page.h" />
     <ClInclude Include="Player.h" />

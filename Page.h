@@ -1,4 +1,16 @@
-#pragma once
+/***********************************************************
+*Page.h
+*By: Julian Stanton
+*Assignment: Final Project
+*Due 5/11/20
+*
+*Program Description:
+*	The Base class that the other pages are built on
+*	inspired / based on code from Headturna on github
+*	I was looking for a good way to implement a gui and this
+*	seemed like a great way SFML is pretty cool
+*************************************************************/
+
 
 #ifndef _PAGE_H_
 #define _PAGE_H_
@@ -19,6 +31,7 @@
 #include "Player.h"
 
 
+
 using namespace std;
 
 class Page;
@@ -34,7 +47,6 @@ public:
 	float gridSize = 1;
 	sf::RenderWindow* window;
 
-	std::map<std::string, int>* supportedKeys;
 	std::stack<Page*>* states;
 
 	Player *player;
@@ -67,13 +79,9 @@ public:
 	Page(GameData *page);
 
 	virtual void quitePage();
-
 	bool getQuit();
-
 	virtual void update(const double &time) =0;
 	virtual void render(sf::RenderTarget* wind = nullptr ) = 0;
-
-
 	virtual void updateMousePositions(sf::View* view = NULL);
 
 };

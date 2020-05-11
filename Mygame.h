@@ -1,14 +1,24 @@
-#pragma once
+/***********************************************************
+*MyGame.h
+*By: Julian Stanton
+*Assignment: Final Project
+*Due 5/11/20
+*
+*Program Description:
+*	The class that controls all the pages
+*
+*************************************************************/
 
 
+#ifndef _MY_GAME_H_
+#define _MY_GAME_H_
 
 #include "Page.h"
 #include "GamePage.h"
 #include "MainPage.h"
 
 
-
-class Mygame {
+class MyGame {
 
 
 private:
@@ -18,19 +28,11 @@ private:
 	sf::Clock clock;
 
 
-	bool newEvent;
-	double frameTime;
 
 	GameData gameData;
 
 
 	stack<Page*> pages;
-
-
-public:
-	
-	Mygame();
-	~Mygame();
 
 	void gameLoop();
 
@@ -44,16 +46,20 @@ public:
 
 	bool initWindow();
 
-	void getEvents();
-
 	void update();
-
-	void updateTime();
 
 	void show();
 
-
 	void checkEvents();
+
+	
+
+public:
+	
+	MyGame();
+	~MyGame();
+
 
 };
 
+#endif

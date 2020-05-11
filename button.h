@@ -1,10 +1,17 @@
-// Made by Ben Bollinger
+/***********************************************************
+*button.h
+*By: Julian Stanton
+*Assignment: Final Project
+*Due 5/11/20
+*
+*Program Description:
+*	Button class to make buttons
+*
+*************************************************************/
 
-#pragma once
+
 #ifndef _BUTTON_H_
 #define _BUTTON_H_
-
-#include <iostream>
 
 
 
@@ -15,6 +22,7 @@ using namespace std;
 enum button_states { BTN_IDLE = 0, BTN_HOVER, BTN_ACTIVE };
 
 class Button {
+	
 private:
 
 	GameData pageInfo;
@@ -47,19 +55,9 @@ public:
 		sf::Color idle_color, sf::Color hover_color, sf::Color active_color,
 		sf::Color outline_idle_color = sf::Color::Transparent, sf::Color outline_hover_color = sf::Color::Transparent, sf::Color outline_active_color = sf::Color::Transparent,
 		short unsigned id = 0);
+
+	bool isPressed() const;
 	
-	~Button();
-
-	//Accessors
-	const bool isPressed() const;
-	const std::string getText() const;
-	const short unsigned& getId() const;
-
-	//Modifiers
-	void setText(const std::string text);
-	void setId(const short unsigned id);
-
-	//Functions
 	void update(const sf::Vector2f& mousePosWindow);
 	void render(sf::RenderTarget& target);
 };

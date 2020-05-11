@@ -1,12 +1,19 @@
-#pragma once
+/***********************************************************
+*Player.h
+*By: Julian Stanton
+*Assignment: Final Project
+*Due 5/11/20
+*
+*Program Description:
+*	The Class the keep track of all the player stats and car
+*
+*************************************************************/
+
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
 
 #include "Car.h"
-
-
-
 
 class Player {
 	static int pCount;
@@ -21,53 +28,37 @@ private:
 	double eInc;
 	double tInc;
 
+	Car* raceCar;
+
 public:
 	
-	Car *raceCar;
-	Player();
-
-	Car* playerCar() {
-		return raceCar;
-	}
-
-	void changeCost(CarPart id) {
-		switch (id) {
-		case CarPart::body:
-			carUprageCost += cInc+=10000.0;
-			break;
-		case CarPart::engine:
-			engUprageCost += eInc += 500;
-			break;
-		case CarPart::turbo:
-			turbUprageCost += tInc+=50;
-			break;
-		default:
-			break;
-		}
-		
-	}
-
-	double getEngUpgradeCost() const{
-		return engUprageCost;
-	}
-
-	double getCarUprageCost() const {
-		return carUprageCost;
-	}
 	
-	double getTurbUprageCost() const {
-		return turbUprageCost;
-	}
+	Player();
+	~Player() {
+		delete raceCar;
+		
+	};
+	Car* playerCar();
+
+	void setPlayerCar(Car *c) {
+		raceCar = c;
+		
+	};
+	
+	void changeCost(CarPart id);
+
+	double getEngUpgradeCost() const;
+
+	double getCarUprageCost() const;
+	
+	double getTurbUprageCost() const;
 
 	void addMoney(const double amount);
+
 	void subtractMoney(const double amount);
+
 	double getMoney()const;
 
-
-
-	//Car getCar() {
-	//	return raceCar;
-	//}
 
 };
 

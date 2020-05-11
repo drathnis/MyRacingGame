@@ -1,8 +1,19 @@
-#include "Mygame.h"
+/***********************************************************
+*MyGame.cpp
+*By: Julian Stanton
+*Assignment: Final Project
+*Due 5/11/20
+*
+*Program Description:
+*	The class that controls all the pages
+*
+*************************************************************/
+
+#include "MyGame.h"
 
 
-Mygame::Mygame() {
-	
+MyGame::MyGame() {
+
 
 	initPlayer();
 	initVariables();
@@ -16,61 +27,54 @@ Mygame::Mygame() {
 
 }
 
-Mygame::~Mygame() {
+
+MyGame::~MyGame() {
 	delete window;
 
 	while (!pages.empty()) {
+
 		delete pages.top();
+
 		pages.pop();
 	}
 }
 
-void Mygame::gameLoop() {
+void MyGame::gameLoop() {
 	cout << "Run"<<endl;
 	while (window->isOpen()) {
-
-		updateTime();
 
 		show();
 		update();
 
 	}
-	cout << "EndLoop"<<endl;
-	return;
 }
 
-void Mygame::initPlayer() {
+void MyGame::initPlayer() {
 
 	gameData.player = new Player;
 	cout << "Created Player"<< endl;	
-	gameData.player->addMoney(10000);
-	gameData.player->raceCar = new Car('c');
+	gameData.player->setPlayerCar(new Car('C'));
 
-
-	//TODO
 }
 
-void Mygame::initVariables() {
+void MyGame::initVariables() {
 	window = NULL;
-
-	frameTime = 0.f;
 
 	gameData.gridSize = 64.f;
 }
 
-void Mygame::initStateData() {
+void MyGame::initStateData() {
 
 	gameData.window = window;
 
 	gameData.states = &pages;
 }
 
-void Mygame::initPages() {
+void MyGame::initPages() {
 	pages.push(new MainPage(&gameData));
-	//pages.push(new RacePage(gameData));
 }
 
-bool Mygame::initWindow() {
+bool MyGame::initWindow() {
 	window = new sf::RenderWindow(sf::VideoMode(1000, 800), "My Race Game");
 
 	if (!window) {
@@ -81,16 +85,12 @@ bool Mygame::initWindow() {
 	return true;
 }
 
-void Mygame::getEvents() {
-
-}
-
-void Mygame::update() {
+void MyGame::update() {
 	
 	checkEvents();
 
 	if (!pages.empty()) {
-		pages.top()->update(frameTime);
+		pages.top()->update(0);
 
 		if (pages.top()->getQuit()) {
 			pages.top()->quitePage();
@@ -99,20 +99,13 @@ void Mygame::update() {
 		}
 
 	}
-	//Application end
 	else {
 
 		window->close();
 	}
 }
 
-void Mygame::updateTime() {
-
-	frameTime = clock.restart().asSeconds();
-	//cout << frameTime << endl;
-}
-
-void Mygame::show() {
+void MyGame::show() {
 	window->clear();
 
 	if (!pages.empty())
@@ -121,11 +114,11 @@ void Mygame::show() {
 	window->display();
 }
 
-void Mygame::checkEvents() {
+void MyGame::checkEvents() {
 
-	//cout << "Checking" << endl;
 	while (window->pollEvent(event)) {
 		if (event.type == sf::Event::Closed)
 			window->close();
 	}
 }
+

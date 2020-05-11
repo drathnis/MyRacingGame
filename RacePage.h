@@ -1,14 +1,18 @@
-#pragma once
+/***********************************************************
+*RacePage .h
+*By: Julian Stanton
+*Assignment: Final Project
+*Due 5/11/20
+*
+*Program Description:
+*	THe page where the magic happens lets race here!!!!
+*
+*************************************************************/
 #ifndef _RACEPAGE_H_
 #define _RACEPAGE_H_
 
 #include "Page.h"
 #include <cstdlib>
-
-//#include <fstream>
-//#include <iostream>
-//#include <iomanip>
-//#include <sstream>
 
 #include "button.h"
 
@@ -23,16 +27,14 @@ private:
 	sf::RectangleShape background;
 	sf::RectangleShape btnBackground;
 
-	sf::RectangleShape waterTempBg;
-	sf::RectangleShape waterTempFg;
-
+	sf::Image backgroundImg;
+	sf::Texture backgroundTexture;
 
 	sf::RectangleShape playerProg;
 	sf::RectangleShape playerProgBase;
 	sf::RectangleShape opProg;
 	sf::RectangleShape opProgBase;
 
-	sf::Texture backgroundTexture;
 	sf::Texture tachometerTexture;
 	sf::Texture needleTexture;
 	sf::CircleShape circles[4];
@@ -44,9 +46,7 @@ private:
 	sf::Sprite tachometerSprite;
 	sf::Sprite needleSpite;
 	
-	//double * tCurve;
-	double dt_;
-	double opDt_;
+
 	sf::Text currentGearText;
 	sf::Text currentSpeedText;
 	sf::Text infoText;
@@ -70,110 +70,67 @@ private:
 	stringstream tempStream;
 
 
-
 	int rpms;
-	bool startRace = false;
-	bool countDown = false;
-	bool driveEngaged = false;
-	int countDownLights = 0;
+	bool startRace;
+	bool countDown;
+
+	int countDownLights;
 	int gear;
-	int lastGear;
-
-	bool startedMoving = false;
-
-	double speed = 0;
-	double lastspeed = 0;
-
-	double distanceCovered = 0;
-	double targetDistance = 1320;
-
-	bool throttle = false;
-
-	//opponent  vars
-	double opAccelSpeed = 0;
-	double opTopSpeed = 0;
-	int opGear = 0;
-	int lastOpGear = 0;
-	int opRpms = 0;
-	double opSpeed = 0;
 
 
-	bool opThrottle = false;
+	double speed;
 
-	bool newGearTime = true;
-	int gearTimeCount = 0;
-	double opDistanceCovered = 0;
 
-	bool opFinished = false;
-	bool playerFinished = false;
+	double distanceCovered;
+	double targetDistance;
+
+	bool throttle;
+
+
+	int opGear;
+	int opRpms;
+	double opSpeed;
+
+
+	bool opThrottle;
+
+
+	double opDistanceCovered;
+
+	bool opFinished;
+	bool playerFinished;
 
 	double opFinishTime;
 	double playerFinishTime;
-
-	int waterTemp;
-
 	bool enoughMoney;
 
 	MyTimer debounceTimer;
-
 	MyTimer raceTimer;
 
-	int gearChangeTime;
-
-
-public:
-
-	RacePage(GameData *pageData);
-
-	~RacePage() {
-		delete opCar;
-	}
-
-
+	sf::Time elapsed;
 
 	void initSounds();
-
 	void initLights();
-
 	bool initFonts();
-	
 	void initButtons();
-
 	bool intitGraphics();
 
-	void initWaterTemp();
-
 	void renderProgress();
-
 	void renderGraphics();
-
 	void renderButtons(sf::RenderTarget* target);
-	
-	void render(sf::RenderTarget* wind);
 
 	void updateProgress();
-
 	void updateSpeedAndGear();
-
 	void updateInfoText();
 
-	void update(const double& time);
-
-	void updateWaterTemp();
-
 	void race();
-
 	void userRpms();
-
 	void runRace();
-
 	void simRace();
-
 	void opRPMS();
 
+	
 	void drawLights(int count);
-
-	void renderWaterTemp();
 
 	void updatePlayerInput(const double& dt);
 
@@ -183,6 +140,21 @@ public:
 
 	double mapVals(double x, double in_min, double in_max, double out_min, double out_max);
 
+	bool initBackGournd();
+	
+public:
+
+	RacePage(GameData *pageData);
+
+
+	~RacePage();
+
+
+
+	void render(sf::RenderTarget* wind);
+
+	void update(const double& time);
+	
 };
 
 #endif

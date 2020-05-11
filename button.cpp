@@ -1,6 +1,18 @@
 
+/***********************************************************
+*button.cpp
+*By: Julian Stanton
+*Assignment: Final Project
+*Due 5/11/20
+*
+*Program Description:
+*	Button class to make buttons
+*
+*************************************************************/
 #include "button.h"
 
+
+//Constructor for button 
 
 Button::Button(float x, float y, float width, float height,
 	sf::Font* font, std::string text, unsigned character_size,
@@ -24,7 +36,6 @@ Button::Button(float x, float y, float width, float height,
 	this->text.setString(text);
 	this->text.setFillColor(text_idle_color);
 	this->text.setCharacterSize(character_size);
-	//std::cout << this->text.getGlobalBounds().width << "\n";
 	this->text.setPosition(
 		this->shape.getPosition().x + (this->shape.getGlobalBounds().width / 2.f) - this->text.getGlobalBounds().width / 2.f,
 		this->shape.getPosition().y
@@ -44,84 +55,60 @@ Button::Button(float x, float y, float width, float height,
 }
 
 
-Button::~Button() {
+//returns true if button has been clicked
+bool Button::isPressed() const {
 
-}
-
-//Accessors
-const bool Button::isPressed() const {
-
-	if (this->buttonState == BTN_ACTIVE)
+	if (buttonState == BTN_ACTIVE)
 		return true;
 
 	return false;
 }
 
-const std::string Button::getText() const {
-	return this->text.getString();
-}
-
-const short unsigned& Button::getId() const {
-	return this->id;
-}
-
-//Modifiers
-void Button::setText(const std::string text) {
-	this->text.setString(text);
-}
-
-void Button::setId(const short unsigned id) {
-	this->id = id;
-}
-
-//Functions
+//Updates button colors with mouse over and checks to see if button was pressed
 void Button::update(const sf::Vector2f& mousePosWindow) {
-	/*Update the booleans for hover and pressed*/
 
-	
-	//Idle
-	this->buttonState = BTN_IDLE;
 
-	//Hover
-	if (this->shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePosWindow))) {
-		this->buttonState = BTN_HOVER;
+	buttonState = BTN_IDLE;
 
-		//Pressed
+	if (shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePosWindow))) {
+		buttonState = BTN_HOVER;
+
+
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-			this->buttonState = BTN_ACTIVE;
+			buttonState = BTN_ACTIVE;
 		}
-
 	}
 
-	switch (this->buttonState) {
+	switch (buttonState) {
 	case BTN_IDLE:
-		this->shape.setFillColor(this->idleColor);
-		this->text.setFillColor(this->textIdleColor);
-		this->shape.setOutlineColor(this->outlineIdleColor);
+		shape.setFillColor(idleColor);
+		text.setFillColor(textIdleColor);
+		shape.setOutlineColor(outlineIdleColor);
 		break;
 
 	case BTN_HOVER:
-		this->shape.setFillColor(this->hoverColor);
-		this->text.setFillColor(this->textHoverColor);
-		this->shape.setOutlineColor(this->outlineHoverColor);
+		shape.setFillColor(hoverColor);
+		text.setFillColor(textHoverColor);
+		shape.setOutlineColor(outlineHoverColor);
 		break;
 
 	case BTN_ACTIVE:
-		this->shape.setFillColor(this->activeColor);
-		this->text.setFillColor(this->textActiveColor);
-		this->shape.setOutlineColor(this->outlineActiveColor);
+		shape.setFillColor(activeColor);
+		text.setFillColor(textActiveColor);
+		shape.setOutlineColor(outlineActiveColor);
 
 		break;
 
 	default:
-		this->shape.setFillColor(sf::Color::Red);
-		this->text.setFillColor(sf::Color::Blue);
-		this->shape.setOutlineColor(sf::Color::Green);
+		shape.setFillColor(sf::Color::Red);
+		text.setFillColor(sf::Color::Blue);
+		shape.setOutlineColor(sf::Color::Green);
 		break;
 	}
 
 }
 
+//draws the button to the screen
 void Button::render(sf::RenderTarget& target) {
 	target.draw(this->shape);
 	target.draw(this->text);

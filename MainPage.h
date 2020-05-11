@@ -1,4 +1,20 @@
-#pragma once
+
+/***********************************************************
+*MainPage.h
+*By: Julian Stanton
+*Assignment: Final Project
+*Due 5/11/20
+*
+*Program Description:
+*	The 'Title' page
+*
+*************************************************************/
+
+
+
+#ifndef _MAIN_PAGE_H_
+#define _MAIN_PAGE_H_
+
 #include "Page.h"
 
 #include "button.h"
@@ -8,48 +24,42 @@
 class MainPage :public Page {
 
 
-	private:
+private:
 
-		std::map<std::string, Button*> buttons;
-		sf::Font font;
-		sf::RectangleShape background;
-		sf::RectangleShape btnBackground;
-		sf::Texture backgroundTexture;
+	std::map<std::string, Button*> buttons;
+	sf::Font font;
+	sf::RectangleShape background;
+	sf::RectangleShape btnBackground;
+	sf::Texture backgroundTexture;
 
-		GameData pageInfo;
+	GameData pageInfo;
 
-		sf::Image backgroundImg;
-
-	public:
-
-		MainPage(GameData *pageData);;
-
-		~MainPage();
-
-		
-		bool initBackGournd();
+	sf::Image backgroundImg;
 
 
-		void renderButtons(sf::RenderTarget& target);;
-		
-		void initFonts();;
+
+	bool initBackGournd();
+
+	void initFonts();;
+
+	void initButtons();
+
+	void updateButtons();
+
+	void renderButtons(sf::RenderTarget* wind);
+	
+public:
+
+	MainPage(GameData* pageData);;
+
+	~MainPage();
 
 
-		void initButtons();
+	void update(const double& time);;
 
 
-		void resetGui();
-
-		void checkForEnd();
-		
-
-		void update(const double& time);;
-
-		void updateButtons();
-
-		void renderButtons(sf::RenderTarget* wind);
-
-		void render(sf::RenderTarget* wind);;
+	void render(sf::RenderTarget* wind);;
 
 
 };
+#endif

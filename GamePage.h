@@ -1,4 +1,13 @@
-#pragma once
+/***********************************************************
+*GamePage.h
+*By: Julian Stanton
+*Assignment: Final Project
+*Due 5/11/20
+*
+*Program Description:
+*	the page with menu for switching between pages
+*
+*************************************************************/
 
 
 #ifndef _GAMEPAGE_H_
@@ -33,26 +42,12 @@ private:
 	GameData pageData;
 
 
-public:
-
-	GamePage(GameData *pageData);;
-
 	bool initBackGournd();
 
-	~GamePage();;
+
 	void initFonts();;
 
 	void initButtons();
-
-
-
-	void render(sf::RenderTarget *wind);
-	void renderButtons(sf::RenderTarget *target);
-
-	void update(const double& time);
-
-
-
 
 	void updatePlayerInfo();
 
@@ -61,6 +56,19 @@ public:
 	void initPlayerInfo();
 
 	void renderPlayerInfo();
+
+	void renderButtons(sf::RenderTarget* target);
+	
+public:
+
+	GamePage(GameData *pageData);
+	~GamePage();
+	
+
+	
+	void render(sf::RenderTarget *wind);
+
+	void update(const double& time);
 
 
 

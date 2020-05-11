@@ -33,9 +33,6 @@
     <ClCompile Include="MainPage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Mygame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="myTimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -49,6 +46,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Drivetrain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,9 +68,6 @@
     <ClInclude Include="MainPage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Mygame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="myTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -84,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Drivetrain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

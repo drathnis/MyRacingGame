@@ -1,3 +1,15 @@
+
+/***********************************************************
+*MainPage.cpp
+*By: Julian Stanton
+*Assignment: Final Project
+*Due 5/11/20
+*
+*Program Description:
+*	The 'Title' page
+*
+*************************************************************/
+
 #include "MainPage.h"
 
 
@@ -13,7 +25,6 @@ MainPage::MainPage(GameData *pageData) :Page(pageData) {
 	initButtons();
 
 	if (initBackGournd()) {
-		
 		
 		background.setRotation(270);
 		background.setPosition(100, (float)pageInfo.window->getSize().y);
@@ -33,6 +44,8 @@ MainPage::~MainPage() {
 	for (it = buttons.begin(); it != buttons.end(); ++it) {
 		delete it->second;
 	}
+
+
 }
 
 bool MainPage::initBackGournd() {
@@ -63,19 +76,6 @@ void MainPage::initButtons() {
 	);
 }
 
-void MainPage::resetGui() {
-	auto it = buttons.begin();
-	for (it = buttons.begin(); it != buttons.end(); ++it) {
-		delete it->second;
-	}
-	buttons.clear();
-
-	initButtons();
-}
-
-void MainPage::checkForEnd() {
-
-}
 
 void MainPage::update(const double& time) {
 	updateMousePositions();
@@ -109,24 +109,17 @@ void MainPage::updateButtons() {
 	}
 
 
-
-
 }
 
 
 void MainPage::renderButtons(sf::RenderTarget* wind) {
 
 
-
 	for (auto& it : this->buttons) {
 		it.second->render(*wind);
-
 	}
 }
 
-void MainPage::renderButtons(sf::RenderTarget& target) {
-
-}
 
 void MainPage::initFonts() {
 	if (!this->font.loadFromFile("Fonts/Roboto-Regular.ttf")) {
@@ -137,7 +130,5 @@ void MainPage::initFonts() {
 void MainPage::render(sf::RenderTarget* wind) {
 	
 	pageInfo.window->draw(background);
-	//pageInfo.window->draw(backgroundImg);
-
 	renderButtons(wind);
 }

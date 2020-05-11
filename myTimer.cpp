@@ -1,6 +1,14 @@
-// 
-// 
-// 
+/***********************************************************
+*myTimer.cpp
+*By: Julian Stanton
+*Assignment: Final Project
+*Due 5/11/20
+*
+*Program Description:
+*	Simple class for keeping track of non blocking delays that
+*	I originally made for arduino projects
+*
+*************************************************************/
 
 #include "myTimer.h"
 
